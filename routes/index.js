@@ -1,7 +1,7 @@
 // requires
 const express = require('express');
 const router = express.Router();
-const parseData = require('../handlers');
+const { parseData } = require('../handlers');
 const nodeMailer = require('nodemailer');
 const domains = process.env.DOMAINS.split(',');
 

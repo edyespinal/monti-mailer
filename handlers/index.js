@@ -1,4 +1,4 @@
-function parseData(req, res, next) {
+exports.parseData = (req, res, next) => {
 	if (req.method === 'POST') {
 		const formData = {};
 		req.on('data', data => {
@@ -21,6 +21,6 @@ function parseData(req, res, next) {
 	} else {
 		next();
 	}
-}
+};
 
-exports.module = { parseData };
+exports.module = exports;
