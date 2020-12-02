@@ -6,7 +6,7 @@ const app = express();
 
 // fix CORS
 app.use(function (req, res, next) {
-	res.header('Access-Control-Allow-Origin', 'https://monti-mailer.herokuapp.com/');
+	res.header('Access-Control-Allow-Origin', '*');
 	next();
 });
 
