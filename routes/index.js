@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', parseData, async (req, res, next) => {
 	try {
-		if (domains.includes(req.headers.referer)) {
+		if (domains.includes(req.headers.referer) && req.body) {
 			const data = req.body;
 			const mail = await mailer(
 				data.from,
@@ -30,7 +30,7 @@ router.post('/', parseData, async (req, res, next) => {
 			);
 			res.status(200).json(mail);
 		} else {
-			res.status(401).json({ error: 'Unauthorized' });
+			res.status(403).json({ error: "You don't have access to this resource" });
 		}
 	} catch (err) {
 		console.error(err);
@@ -50,16 +50,18 @@ module.exports = router;
  * @param {String} _phone phone number of the sender
  * @param {String} _recipient the email of the recipient of the contact form
  * @param {String} _subject the subject of the email
- * @param {String} _mensaje the message of the email
+ * @param {String} _message the message of the email
  */
-async function mailer(_from, _sender, _name = '', _phone = '', _recipient, _subject, _mensaje) {
+async function mailer(_from, _sender, _name = '', _phone = '', _recipient, _subject, _message) {
 	const transporter = nodeMailer.createTransport({
 		host: 'smtp.dreamhost.com',
 		port: 465,
 		secure: true,
 		auth: {
-			user: process.env.EMAIL_USER,
-			pass: process.env.EMAIL_PASS
+			// user: process.env.EMAIL_USER,
+			// pass: process.env.EMAIL_PASS
+			user: 'dbuild@edyespinal.com',
+			pass: '-.Duv0Fz7'
 		}
 	});
 
@@ -67,7 +69,10 @@ async function mailer(_from, _sender, _name = '', _phone = '', _recipient, _subj
 		from: _from,
 		to: _recipient,
 		subject: _subject,
-		html: `Nombre: ${_name} <br/> Tel.: ${_phone} <br/> Mensaje: ${_mensaje}`,
+		html: `<p>Nombre: ${_name}</p>
+					 <p>Correo: ${_sender}</p>
+					 <p>Teléfono: ${_phone}</p>
+					 <p>Mensaje: <br/> ${_message}</p>`,
 		date: Date.now()
 	});
 	return info;
