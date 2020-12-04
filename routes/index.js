@@ -58,10 +58,8 @@ async function mailer(_from, _sender, _name = '', _phone = '', _recipient, _subj
 		port: 465,
 		secure: true,
 		auth: {
-			// user: process.env.EMAIL_USER,
-			// pass: process.env.EMAIL_PASS
-			user: 'dbuild@edyespinal.com',
-			pass: '-.Duv0Fz7'
+			user: process.env.EMAIL_USER,
+			pass: process.env.EMAIL_PASS
 		}
 	});
 
