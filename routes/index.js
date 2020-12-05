@@ -17,6 +17,8 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', parseData, async (req, res, next) => {
 	try {
+		console.log(domains);
+		console.log(req.headers);
 		if (domains.includes(req.headers.referer) && req.body) {
 			const data = req.body;
 			const mail = await mailer(
