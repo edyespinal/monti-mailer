@@ -17,16 +17,15 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', parseData, async (req, res, next) => {
 	try {
-		console.log(domains);
-		console.log(req.headers);
-		if (domains.includes(req.headers.referer) && req.body) {
+		if (domains.includes(req.headers.origin) && req.body) {
+			console.log(req.body);
 			const data = req.body;
 			const mail = await mailer(
 				data.from,
 				data.sender,
 				data.name,
 				data.phone,
-				data.recipient,
+				data.to,
 				data.subject,
 				data.message
 			);
@@ -50,11 +49,11 @@ module.exports = router;
  * @param {String} _sender the email address of the sender of the contact form
  * @param {String} _name name of the sender
  * @param {String} _phone phone number of the sender
- * @param {String} _recipient the email of the recipient of the contact form
+ * @param {String} to the email of the recipient of the contact form
  * @param {String} _subject the subject of the email
  * @param {String} _message the message of the email
  */
-async function mailer(_from, _sender, _name = '', _phone = '', _recipient, _subject, _message) {
+async function mailer(_from, _sender, _name = '', _phone = '', _to, _subject, _message) {
 	const transporter = nodeMailer.createTransport({
 		host: 'smtp.dreamhost.com',
 		port: 465,
@@ -67,7 +66,7 @@ async function mailer(_from, _sender, _name = '', _phone = '', _recipient, _subj
 
 	const info = await transporter.sendMail({
 		from: _from,
-		to: _recipient,
+		to: _to,
 		subject: _subject,
 		html: `<p>Nombre: ${_name}</p>
 					 <p>Correo: ${_sender}</p>
