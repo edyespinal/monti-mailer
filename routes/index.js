@@ -1,7 +1,8 @@
 // requires
 const express = require('express');
 const router = express.Router();
-const { parseData } = require('../handlers');
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
 const nodeMailer = require('nodemailer');
 const domains = process.env.DOMAINS.split(',');
 
@@ -15,7 +16,7 @@ router.get('/', async (req, res, next) => {
 	}
 });
 
-router.post('/', parseData, async (req, res, next) => {
+router.post('/', jsonParser, async (req, res, next) => {
 	try {
 		if (domains.includes(req.headers.origin) && req.body) {
 			const data = req.body;
