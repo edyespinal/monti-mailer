@@ -4,12 +4,13 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const nodeMailer = require('nodemailer');
+const path = require('path');
 const domains = process.env.DOMAINS.split(',');
 
 // routes
 router.get('/', async (req, res, next) => {
 	try {
-		res.send('Monti Mailer');
+		res.sendFile(path.resolve('views/index.html'));
 	} catch (err) {
 		console.error(err);
 		res.status(500).json({ error: 'Something went wrong' });
